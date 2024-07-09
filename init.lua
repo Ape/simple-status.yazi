@@ -29,10 +29,11 @@ local function mtime()
         return ui.Span("")
     end
 
-    local time = h.cha.modified
-    local time_str = time and os.date("%Y-%m-%d %H:%M", time // 1) or ""
+    if not h.cha.modified then
+        return ui.Span("")
+    end
 
-    return ui.Span(time_str .. " ")
+    return ui.Span(os.date("%Y-%m-%d %H:%M", h.cha.modified // 1) .. " ")
 end
 
 return {
