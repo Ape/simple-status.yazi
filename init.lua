@@ -1,3 +1,7 @@
+local function spacer()
+	return ui.Span(" ")
+end
+
 local function nlink()
 	local h = cx.active.current.hovered
 	if not h then
@@ -17,10 +21,12 @@ local function owner()
 		return ui.Span("")
 	end
 
-	local user = ya.user_name(h.cha.uid) or h.cha.uid
-	local group = ya.group_name(h.cha.gid) or h.cha.gid
+	local owner = Linemode:owner(h)
+	if owner:width() == 0 then
+		return ui.Span("")
+	end
 
-	return ui.Span(user .. ":" .. group .. " ")
+	return ui.Line({ owner, ui.Span(" ") })
 end
 
 local function mtime()
@@ -37,17 +43,14 @@ local function mtime()
 end
 
 return {
-	setup = function(_, _)
-		Status.render = function(self, area)
-			self.area = area
+	setup = function()
+		Status:children_remove(2, Status.LEFT) -- size
+		Status:children_remove(3, Status.LEFT) -- name
+		Status:children_remove(5, Status.RIGHT) -- percentage
 
-			local left = ui.Line({ self:mode() })
-			local right = ui.Line({ self:permissions(), ui.Span(" "), nlink(), owner(), mtime(), self:position() })
-			return {
-				ui.Paragraph(area, { left }),
-				ui.Paragraph(area, { right }):align(ui.Paragraph.RIGHT),
-				table.unpack(Progress:render(area, right:width())),
-			}
-		end
+		Status:children_add(spacer, 1100, Status.RIGHT)
+		Status:children_add(nlink, 1200, Status.RIGHT)
+		Status:children_add(owner, 1300, Status.RIGHT)
+		Status:children_add(mtime, 1400, Status.RIGHT)
 	end,
 }
