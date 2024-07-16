@@ -17,16 +17,14 @@ end
 
 local function owner()
 	local h = cx.active.current.hovered
-	if not h then
+	if not h or not h.cha.uid or not h.cha.gid then
 		return ui.Span("")
 	end
 
-	local owner = Linemode:owner(h)
-	if owner:width() == 0 then
-		return ui.Span("")
-	end
+	local user = ya.user_name(h.cha.uid) or h.cha.uid
+	local group = ya.group_name(h.cha.gid) or h.cha.gid
 
-	return ui.Line({ owner, ui.Span(" ") })
+	return ui.Line(string.format("%s:%s ", user, group))
 end
 
 local function mtime()
