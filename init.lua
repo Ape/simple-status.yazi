@@ -33,11 +33,11 @@ local function mtime()
 		return ui.Span("")
 	end
 
-	if not h.cha.modified then
+	if not h.cha.mtime then
 		return ui.Span("")
 	end
 
-	return ui.Span(os.date("%Y-%m-%d %H:%M", h.cha.modified // 1) .. " ")
+	return ui.Span(os.date("%Y-%m-%d %H:%M", h.cha.mtime // 1) .. " ")
 end
 
 return {
