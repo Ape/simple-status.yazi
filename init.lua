@@ -43,9 +43,9 @@ end
 return {
 	setup = function()
 		Status:children_remove(2, Status.LEFT) -- size
-		Status:children_remove(3, Status.LEFT) -- name
 		Status:children_remove(5, Status.RIGHT) -- percentage
 
+		Status:children_add(spacer, 900, Status.RIGHT)
 		Status:children_add(spacer, 1100, Status.RIGHT)
 		Status:children_add(nlink, 1200, Status.RIGHT)
 		Status:children_add(owner, 1300, Status.RIGHT)
